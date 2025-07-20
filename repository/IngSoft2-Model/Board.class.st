@@ -116,11 +116,10 @@ Board >> cells [
 { #category : 'accessing' }
 Board >> determineAndApplyEffectTo: aShip atCurrentCellFrom: aGame [
 
-	| specialCell |
+	| specialCell cellsState |
 	specialCell := cells at: (aGame positionOf: aShip).
-	(aGame isReversed: aShip)
-	ifTrue: [ specialCell applyReversedEffectTo: aShip from: aGame ]
-	ifFalse: [ specialCell applyEffectTo: aShip of: aGame ] .
+	cellsState := specialCell currentState.
+	cellsState applyEffectTo: aShip in: specialCell from: aGame.
 	
 	^ specialCell.
 ]
@@ -139,9 +138,9 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 { #category : 'initialization' }
 Board >> initializeWith: aNumberOfCells andTheseCells: someCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
 
-	cells := someCells.
+	cells := OrderedCollection withAll: someCells.
 	wormsHolesFirstEntrance := firstEntrance.
-	wormsHolesSecondEntrance := secondEntrance
+	wormsHolesSecondEntrance := secondEntrance.
 ]
 
 { #category : 'initialization' }

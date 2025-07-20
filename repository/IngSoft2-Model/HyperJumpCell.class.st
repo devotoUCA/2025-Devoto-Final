@@ -21,16 +21,18 @@ HyperJumpCell class >> distanceValueIsValid: distanceValues [
 { #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: distanceValues boardLength: aBoardLength numberOfCells: aNumberOfCells [
 
+	| instance |
 	self distanceValueIsValid: distanceValues.
 	self isAPositiveInteger: aNumberOfCell and: (aBoardLength valueInParsecs) and: aNumberOfCells.
-
-	^ (self new) setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells
+	instance := super initializeCellOn: aNumberOfCell.
+	
+	^ instance withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells.
 ]
 
 { #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsecValue boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
 
-	| parsecDistanceValues boardLenght |
+	| parsecDistanceValues boardLenght instance |
 	parsecDistanceValues:= OrderedCollection new.
 	aParsecValue do: [ :val | parsecDistanceValues add: (ParsecDistance with: val) ].
 	
@@ -38,8 +40,9 @@ HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsec
 
 	self distanceValueIsValid: parsecDistanceValues.
 	self isAPositiveInteger: aNumberOfCell and: aBoardLengthInParsecs and: aNumberOfCells.
-
-	^ (self new) setUpOn: aNumberOfCell withDistanceValues: parsecDistanceValues withBoardLength: boardLenght withANumberOfCells: aNumberOfCells
+	
+	instance := super initializeCellOn: aNumberOfCell.
+	^ instance withDistanceValues: parsecDistanceValues withBoardLength: boardLenght withANumberOfCells: aNumberOfCells.
 ]
 
 { #category : 'initialization' }
@@ -75,18 +78,16 @@ HyperJumpCell >> cellsToJump [
 ]
 
 { #category : 'initialization' }
-HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells [
+HyperJumpCell >> updateDistanceIndex [
 
-	ships := OrderedCollection new.
-	numberOfCell := aNumberOfCell.
+    currentDistanceIndex := (currentDistanceIndex \\ someDistanceValues size) + 1.
+]
+
+{ #category : 'initialization' }
+HyperJumpCell >> withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells [
+
 	someDistanceValues := distanceValues.
 	currentDistanceIndex := 1.
 	boardLengthInParsecs := aBoardLength valueInParsecs .
 	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
-]
-
-{ #category : 'initialization' }
-HyperJumpCell >> updateDistanceIndex [
-
-    currentDistanceIndex := (currentDistanceIndex \\ someDistanceValues size) + 1.
 ]

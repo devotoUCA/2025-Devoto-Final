@@ -18,10 +18,24 @@ AllianceCard >> disableAllianceIn: aGame [
 ]
 
 { #category : 'testing' }
+AllianceCard >> isReversePolarity [
+
+	^ false.
+]
+
+{ #category : 'testing' }
 AllianceCard >> remember: aCardOwner and: aCardTarget [
 
 	owner := aCardOwner.
 	target := aCardTarget.
+]
+
+{ #category : 'testing' }
+AllianceCard >> transitionState [
+	
+	^ self.
+	
+	 
 ]
 
 { #category : 'testing' }

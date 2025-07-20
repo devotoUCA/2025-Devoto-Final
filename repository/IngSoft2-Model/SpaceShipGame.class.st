@@ -228,11 +228,11 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	
 	ships := gameShips deepCopy.
 	
-	deck := aDeck.
+	deck := aDeck deepCopy.
 	cardManagers := ships collect: [ :aShip | CardManager of: aShip with: aDeck ].
 	lastCardPlayed := Card new.
 	
-   board := aBoard.
+   board := aBoard deepCopy.
 	board getShipsIntoFirstCellOfTheBoard: ships.
 	
 	shipSupposedToPlay := 1.
@@ -268,15 +268,11 @@ SpaceShipGame >> isAnAlly: aShip of: anotherShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> isReversed: aShip [
 
-	| cards position |
+	| cards |
 	
 	cards := (self cardManagerOf: aShip) cardsAffecting.
-	position := self positionOf: aShip.
-	^ cards anySatisfy: [ :aCard | 
-		(aCard isKindOf: ReversePolarityCard) and: [
-			aCard cellNumberAffected = position
-		]
-	].
+
+	^ (cards count: [ :aCard | (aCard isReversePolarity) ]) odd.
 ]
 
 { #category : 'as yet unclassified' }
