@@ -12,12 +12,6 @@ RepeatCard >> disableAllianceIn: aGame [
 ]
 
 { #category : 'testing' }
-RepeatCard >> isReversePolarity [
-
-	^ false.
-]
-
-{ #category : 'testing' }
 RepeatCard >> transitionState [
 	
 	^ self.

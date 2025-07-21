@@ -335,7 +335,7 @@ ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndThatShipFallsInt
 	aAllianceCard := AllianceCard new.
 	aReversePolarityCard := ReversePolarityCard new.
 	aOverloadCard := OverloadCard new.
-	cards := OrderedCollection with: aReversePolarityCard with: aAllianceCard with: aOverloadCard.
+	cards := OrderedCollection with: aReversePolarityCard with: aOverloadCard with: aAllianceCard.
 	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	aGame := SpaceShipGame
 		         completedAtLap: 2
