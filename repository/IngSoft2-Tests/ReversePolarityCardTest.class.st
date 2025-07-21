@@ -335,7 +335,7 @@ ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndThatShipFallsInt
 	aAllianceCard := AllianceCard new.
 	aReversePolarityCard := ReversePolarityCard new.
 	aOverloadCard := OverloadCard new.
-	cards := OrderedCollection with: aReversePolarityCard with: aOverloadCard with: aAllianceCard.
+	cards := OrderedCollection with: aReversePolarityCard with: aAllianceCard with: aOverloadCard.
 	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	aGame := SpaceShipGame
 		         completedAtLap: 2
@@ -382,7 +382,7 @@ ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndThatShipFallsInt
 	aReDoCard := ReDoCard new.
 	aReversePolarityCard := ReversePolarityCard new.
 	aOverloadCard := OverloadCard new.
-	cards := OrderedCollection with: aReversePolarityCard with: aReDoCard with: aOverloadCard.
+	cards := OrderedCollection with: aReversePolarityCard with: aOverloadCard with: aReDoCard.
 	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	aGame := SpaceShipGame
 		         completedAtLap: 2
@@ -1071,7 +1071,7 @@ ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedOnANormalCellThenTh
 	anotherReversePolarityCard := ReversePolarityCard new.
 	aReversePolarityCard := ReversePolarityCard new.
 	aOverloadCard := OverloadCard new.
-	cards := OrderedCollection with: aReversePolarityCard with: anotherReversePolarityCard.
+	cards := OrderedCollection with: aReversePolarityCard with: aOverloadCard with: anotherReversePolarityCard.
 	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	aGame := SpaceShipGame
 		         completedAtLap: 2
