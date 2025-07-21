@@ -27,12 +27,6 @@ CancellationCard >> disableAllianceIn: aGame [
 ]
 
 { #category : 'as yet unclassified' }
-CancellationCard >> isReversePolarity [
-
-	^ false.
-]
-
-{ #category : 'as yet unclassified' }
 CancellationCard >> selectedCard: aCard [
 
 	cardToCancel := aCard.
@@ -41,7 +35,7 @@ CancellationCard >> selectedCard: aCard [
 { #category : 'as yet unclassified' }
 CancellationCard >> transitionState [
 	
-	^ self.
+	^ cardToCancel transitionState.
 ]
 
 { #category : 'testing' }
