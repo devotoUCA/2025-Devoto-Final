@@ -65,8 +65,7 @@ Ship >> currentTurbines [
 Ship >> hasEnoughFuel: aConsumption [
 
 	(aConsumption > fuelCharged) ifTrue: 
-		[Error signal: 'Ship has no enough fuel for this consumption' ]
-	
+		[Error signal: 'Ship has no enough fuel for this consumption' ].
 ]
 
 { #category : 'accessing' }
