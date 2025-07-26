@@ -1088,6 +1088,55 @@ ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedOnANormalCellThenTh
 ]
 
 { #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedThenBothShipsCanBeAffectedByTheReversionOfTheEffectOnASameCell [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (AtomicBombCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	numberOfCells := 12.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 10
+		          and: 11.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 7 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 7.
+	self assert: (aGame positionOf: anotherShip) equals: 7.
+]
+
+{ #category : 'tests' }
 ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedWhenItsNotTheShipsTurnThenItFails [
 
 	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
