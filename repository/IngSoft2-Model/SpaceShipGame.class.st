@@ -268,16 +268,6 @@ SpaceShipGame >> isAnAlly: aShip of: anotherShip [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> isReversed: aShip [
-
-	| cards |
-	
-	cards := (self cardManagerOf: aShip) cardsAffecting.
-
-	^ (cards count: [ :aCard | (aCard isReversePolarity) ]) odd.
-]
-
-{ #category : 'as yet unclassified' }
 SpaceShipGame >> isShipSupposedToPlay: aShip [
 
 	aShip = (ships at: shipSupposedToPlay ) ifFalse: [ Error signal: 'You can only play this card when its your turn' ]
