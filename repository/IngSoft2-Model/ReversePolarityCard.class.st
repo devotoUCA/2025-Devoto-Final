@@ -15,12 +15,6 @@ ReversePolarityCard >> disableAllianceIn: aGame [
 ]
 
 { #category : 'testing' }
-ReversePolarityCard >> isReversePolarity [
-
-	^ true.
-]
-
-{ #category : 'testing' }
 ReversePolarityCard >> selectedCell: aNumberOfCell of: aGame [
 
 	cell := aGame cellAt: aNumberOfCell.
