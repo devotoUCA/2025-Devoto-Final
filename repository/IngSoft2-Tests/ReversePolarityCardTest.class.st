@@ -62,6 +62,451 @@ ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAfterAnotherReverse
 ]
 
 { #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoABlackHoleThenFirstShipsIsntAffectedByTheBlackHole [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (BlackHoleCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	numberOfCells := 12.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 10
+		          and: 11.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 8 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: anotherShip to: aShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: anotherShip) equals: 8.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoABlackHoleThenThatShipsIsffectedByTheBlackHole [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (BlackHoleCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	numberOfCells := 12.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 10
+		          and: 11.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 8 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: anotherShip to: aShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 3.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoACardSpawnerCellThenTheFirstShipPicksACard [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip aAllianceCard cards aDeck aReversePolarityCard aOverloadCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (CardSpawnerCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	aAllianceCard := AllianceCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	aOverloadCard := OverloadCard new.
+	cards := OrderedCollection with: aReversePolarityCard with: aAllianceCard with: aOverloadCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+	
+	
+	aReversePolarityCard selectedCell: 7 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+
+	self assert: (aGame cardManagerOf: anotherShip ) cardsInHand size  equals: 3.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoAHyperGravityThenThatShipsIsntAffectedByTheCell [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (HyperGravityCell initializeCellOn: 8 withRequiredValue: 7).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	numberOfCells := 12.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 10
+		          and: 11.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 8 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: anotherShip to: aShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 1.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoAHyperGravityThenTheOtherShipsIsAffectedByTheCell [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (HyperGravityCell initializeCellOn: 8 withRequiredValue: 7).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	numberOfCells := 12.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 10
+		          and: 11.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 8 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: anotherShip to: aShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: anotherShip) equals: 8.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoAHyperJumpThenThatShipIsntAffectedByTheCell [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells distanceValues boardLength anotherShip aRepeatCard aReversePolarityCard cards aDeck |
+	
+	boardLength := LightYearDistance with: 270.
+	distanceValues := OrderedCollection with: (ParsecDistance with: 25).
+
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (HyperJumpCell
+			 initializeCellOn: 4
+			 withDistanceValues: distanceValues
+			 boardLength: boardLength
+			 numberOfCells: 10).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	aRepeatCard := RepeatCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: aRepeatCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 4 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: anotherShip) equals: 3.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoAHyperJumpThenTheOtherShipIsAffectedByTheCell [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells distanceValues boardLength anotherShip aRepeatCard aReversePolarityCard cards aDeck |
+	
+	boardLength := LightYearDistance with: 270.
+	distanceValues := OrderedCollection with: (ParsecDistance with: 25).
+
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (HyperJumpCell
+			 initializeCellOn: 4
+			 withDistanceValues: distanceValues
+			 boardLength: boardLength
+			 numberOfCells: 10).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	aRepeatCard := RepeatCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: aRepeatCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 4 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 4.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoAMoonWalkCellThenOtherShipIsAffectedByTheMoonWalk [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (MoonWalkCell initializeCellOn: 8 withRequiredValue: 2).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	numberOfCells := 12.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 10
+		          and: 11.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+	
+	aReversePolarityCard selectedCell: 8 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: anotherShip) equals: 6.
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndAnotherShipFallsIntoAMoonWalkCellThenThatShipIsntAffectedByTheMoonWalk [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (MoonWalkCell initializeCellOn: 8 withRequiredValue: 2).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	numberOfCells := 12.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 10
+		          and: 11.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aReversePolarityCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+	
+	aReversePolarityCard selectedCell: 8 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip ) equals: 6.
+]
+
+{ #category : 'tests' }
 ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndThatShipFallsIntoAAtomicBombThenNoShipsAreAffectedByTheAtomicBomb [
 
 	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
@@ -400,7 +845,7 @@ ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndThatShipFallsInt
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndThatShipFallsIntoAHyperGravityThenTheCurrentShipsIsntffectedByTheCell [
+ReversePolarityCardTest >> testWhenAReversePolarityCardIsUsedAndThatShipFallsIntoAHyperGravityThenTheCurrentShipsIsntAffectedByTheCell [
 
 	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip anAccelerationCard cards aDeck aReversePolarityCard |
 	cells := OrderedCollection new.
