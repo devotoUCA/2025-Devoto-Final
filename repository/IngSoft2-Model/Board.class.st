@@ -100,17 +100,13 @@ Board >> addShip: aShip toCellAt: aPosition [
 { #category : 'accessing' }
 Board >> cellNumber: aNumber [
 	
-    ^ cells at: aNumber
-
-
+    ^ cells at: aNumber.
 ]
 
 { #category : 'accessing' }
 Board >> cells [
 
 	^ cells.
-
-
 ]
 
 { #category : 'accessing' }
