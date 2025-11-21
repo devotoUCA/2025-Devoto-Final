@@ -14,7 +14,7 @@ AccelerationCard >> disableAllianceIn: aGame [
 { #category : 'testing' }
 AccelerationCard >> effect [
 
-	^ 1
+	^ 1.
 ]
 
 { #category : 'testing' }
