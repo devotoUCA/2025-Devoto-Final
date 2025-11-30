@@ -261,9 +261,6 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellAndRunsOutOfFuelToAdvanceThenItReturnsToTheInitialPosition [
 
 	| aGame aBoard aShip ships oneDice dices numberOfCells cells boardLength distanceValues |
-	"boardLengthInParsecs := 100.
-	cellLengthInParsecs := 10.
-	parsecValues := #( 30 15 10 )."
 	
 	boardLength := ParsecDistance with: 100.
 	distanceValues := OrderedCollection with: (ParsecDistance with: 30) with: (ParsecDistance with: 15) with: (ParsecDistance with: 10).
