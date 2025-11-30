@@ -66,6 +66,7 @@ HyperJumpCell >> applyReversedEffectTo: aShip from: aGame [
 	| shipsToAffect |
 	shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = aShip].
 	shipsToAffect do: [ :ship | aGame move: ship by: (self cellsToJump) ].
+	self updateDistanceIndex.
 ]
 
 { #category : 'initialization' }
